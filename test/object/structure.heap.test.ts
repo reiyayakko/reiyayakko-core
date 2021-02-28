@@ -1,13 +1,13 @@
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Heap, CompareOrder } from "../emnorst.import";
+import { Heap, Comparator } from "../emnorst.import";
 
 describe("Heap", () => {
     const _case = <T>(
         mapper: (n: number) => T,
         getter: (v: T) => number,
-        compareOrder: CompareOrder<T>,
-    ): [(n: number) => T, (v: T) => number, CompareOrder<T>, boolean] => (
+        compareOrder: Comparator<T>,
+    ): [(n: number) => T, (v: T) => number, Comparator<T>, boolean] => (
         [mapper, getter, compareOrder, compareOrder !== true]
     );
     test.each([

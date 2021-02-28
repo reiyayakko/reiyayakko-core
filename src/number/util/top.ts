@@ -1,7 +1,7 @@
 
-import { compare, CompareOrder } from "util/compare";
+import { compare, Comparator } from "util/compare";
 
-export const top = <T>(items: ArrayLike<T>, order?: CompareOrder<T>): T | null => {
+export const top = <T>(items: ArrayLike<T>, order?: Comparator<T>): T | null => {
     const len = items.length;
     if(len === 0) return null;
 
