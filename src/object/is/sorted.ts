@@ -1,4 +1,5 @@
 
+import { compare, Comparator } from "util/compare";
 import { isArrayLike } from "../is/array-like";
 
 /*
@@ -7,32 +8,32 @@ import { isArrayLike } from "../is/array-like";
 */
 
 /**
- * 
- *
  * @param arrayLike
- * @param compare
+ * @param comparator
  * @param direction The value expected as the result of the comparison function.
  * If not specified, the first result is specified.
  */
-export const isSorted = <T, U>(
+export const isSorted = <T>(
     arrayLike: ArrayLike<T>,
-    compare: (left: T, right: T) => U,
-    direction?: U,
+    comparator: Comparator<T>,
+    direction?: boolean,
 ): boolean => {
     if(!isArrayLike(arrayLike))
         return false;
 
-    if(arrayLike.length < (direction == null ? 3 : 2))
+    const len = arrayLike.length;
+    if(len < (direction == null ? 3 : 2))
         return true;
 
     let prev = arrayLike[0];
-    let result = compare(prev, prev = arrayLike[1]);
-
-    if(direction == null) direction = result;
-
+    let result: boolean;
     let i = 1;
-    while(direction === result && ++i < arrayLike.length)
-        result = compare(prev, prev = arrayLike[i]);
+    if(direction == null) {
+        direction = compare(prev, prev = arrayLike[i++], comparator);
+    }
 
-    return i === arrayLike.length;
+    do result = compare(prev, prev = arrayLike[i], comparator);
+    while(direction === result && ++i < len);
+
+    return i === len;
 };
